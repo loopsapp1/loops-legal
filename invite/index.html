@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>הזמנה ל-LOOPS</title>
+<style>
+  :root { --bg:#fffaf3; --card:#ffffff; --text:#2b2118; --muted:#7a6a5c; --brand:#f59e0b; --brand2:#f43f5e; --line:#eadfce; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#1d1712; --card:#2a221b; --text:#f6ece0; --muted:#b9a995; --line:#3d3228; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:-apple-system,"Segoe UI",Arial,sans-serif; background:var(--bg); color:var(--text);
+         display:flex; min-height:100vh; align-items:center; justify-content:center; padding:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:20px; padding:28px 22px; max-width:420px; width:100%; text-align:center; }
+  .logo { width:72px; height:72px; border-radius:50%; margin:0 auto 14px; background:linear-gradient(135deg,var(--brand),var(--brand2)); }
+  h1 { font-size:24px; margin:0 0 8px; }
+  p { color:var(--muted); line-height:1.5; margin:6px 0 16px; }
+  .btn { display:block; width:100%; padding:14px; border-radius:14px; font-size:17px; font-weight:600; text-decoration:none; border:0; cursor:pointer; margin-top:10px; }
+  .primary { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; }
+  .secondary { background:transparent; color:var(--text); border:1px solid var(--line); }
+  .code { font-size:22px; letter-spacing:3px; font-weight:700; padding:10px; border:1px dashed var(--line); border-radius:12px; margin:8px 0 0; direction:ltr; }
+  .small { font-size:13px; color:var(--muted); margin-top:18px; }
+  [hidden] { display:none !important; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo" aria-hidden="true"></div>
+  <h1>הוזמנת להצטרף ל-LOOPS</h1>
+  <p>אפליקציה לתיאום מפגשים ותוכניות עם חברים.</p>
+
+  <a id="openBtn" class="btn primary" href="#">פתיחה ב-LOOPS</a>
+  <a id="storeBtn" class="btn secondary" href="#" hidden>עוד אין לך את האפליקציה? להורדה מהאפ סטור</a>
+
+  <div id="codeBox" hidden>
+    <p class="small">אם הקישור לא נפתח, אפשר להזין את הקוד באפליקציה, במסך "הוספת חברים" ← "הוספת חבר בקוד":</p>
+    <div class="code" id="codeText"></div>
+    <button class="btn secondary" id="copyBtn" type="button">העתקת הקוד</button>
+  </div>
+
+  <p class="small">מה קורה כשלוחצים? האפליקציה נפתחת עם הקוד, ומי שהזמין אותך מקבל בקשה ובוחר באיזה מעגל למקם אותך.</p>
+</div>
+
+<script>
+  // After the app is live, paste the App Store address here (App Store Connect -> View on App Store)
+  var APP_STORE_URL = "";
+
+  var params = new URLSearchParams(location.search);
+  // Keep only letters, digits and dashes so nothing unexpected can be injected
+  var code = (params.get("code") || "").replace(/[^A-Za-z0-9\-]/g, "").slice(0, 24);
+
+  var openBtn = document.getElementById("openBtn");
+  if (code) {
+    openBtn.href = "loops://connect?code=" + encodeURIComponent(code);
+    document.getElementById("codeText").textContent = code;
+    document.getElementById("codeBox").hidden = false;
+    document.getElementById("copyBtn").addEventListener("click", function () {
+      var done = function () { document.getElementById("copyBtn").textContent = "הועתק ✓"; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(done, done);
+      } else { done(); }
+    });
+  } else {
+    openBtn.href = "loops://";
+  }
+
+  if (APP_STORE_URL) {
+    var s = document.getElementById("storeBtn");
+    s.href = APP_STORE_URL;
+    s.hidden = false;
+  }
+</script>
+</body>
+</html>
