@@ -20,6 +20,7 @@
   .primary { background:linear-gradient(135deg,var(--brand),var(--brand2)); color:#fff; }
   .secondary { background:transparent; color:var(--text); border:1px solid var(--line); }
   .code { font-size:22px; letter-spacing:3px; font-weight:700; padding:10px; border:1px dashed var(--line); border-radius:12px; margin:8px 0 0; direction:ltr; }
+  .label { font-size:14px; color:var(--muted); margin:18px 0 0; }
   .small { font-size:13px; color:var(--muted); margin-top:18px; }
   [hidden] { display:none !important; }
 </style>
@@ -27,19 +28,23 @@
 <body>
 <div class="card">
   <div class="logo" aria-hidden="true"></div>
-  <h1>הוזמנת להצטרף ל-LOOPS</h1>
-  <p>אפליקציה לתיאום מפגשים ותוכניות עם חברים.</p>
+  <h1>הוזמנת ל-LOOPS</h1>
+  <p>אפליקציה לתיאום מפגשים עם חברים</p>
 
-  <a id="openBtn" class="btn primary" href="#">פתיחה ב-LOOPS</a>
-  <a id="storeBtn" class="btn secondary" href="#" hidden>עוד אין לך את האפליקציה? להורדה מהאפ סטור</a>
+  <div class="label">כבר יש לך את האפליקציה?</div>
+  <a id="openBtn" class="btn primary" href="#">הוספת החבר/ה ב-LOOPS</a>
+
+  <div id="storeBox" hidden>
+    <div class="label">עוד אין לך אותה?</div>
+    <a id="storeBtn" class="btn secondary" href="#">הורדת LOOPS</a>
+    <p class="small">אחרי ההתקנה, חזרו ללחוץ על הקישור כדי להוסיף את החבר/ה.</p>
+  </div>
 
   <div id="codeBox" hidden>
-    <p class="small">אם הקישור לא נפתח, אפשר להזין את הקוד באפליקציה, במסך "הוספת חברים" ← "הוספת חבר בקוד":</p>
+    <div class="label">הקישור לא נפתח? הקוד להזנה ידנית באפליקציה:</div>
     <div class="code" id="codeText"></div>
     <button class="btn secondary" id="copyBtn" type="button">העתקת הקוד</button>
   </div>
-
-  <p class="small">מה קורה כשלוחצים? האפליקציה נפתחת עם הקוד, ומי שהזמין אותך מקבל בקשה ובוחר באיזה מעגל למקם אותך.</p>
 </div>
 
 <script>
@@ -66,9 +71,8 @@
   }
 
   if (APP_STORE_URL) {
-    var s = document.getElementById("storeBtn");
-    s.href = APP_STORE_URL;
-    s.hidden = false;
+    document.getElementById("storeBtn").href = APP_STORE_URL;
+    document.getElementById("storeBox").hidden = false;
   }
 </script>
 </body>
